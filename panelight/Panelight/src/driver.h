@@ -51,5 +51,6 @@ void up_down_two_col(const unsigned color1, const unsigned color2, unsigned* val
 void gradient_center(const unsigned* colors, unsigned* values, int size);
 void gradient(const unsigned* colors, unsigned* values, int size);
 void wake_up(const unsigned color, double bright, bool flag, unsigned* values, int size);
+void sleeping(const unsigned color, double bright, bool flag, unsigned* values, int size);
 
 

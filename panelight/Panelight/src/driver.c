@@ -1,5 +1,8 @@
 #include "driver.h"
 #include <stdbool.h>
+
+#define ARRAY_LEVELS_SIZE 65
+
 void init_data()
 {
     mode = UP;
@@ -56,7 +59,7 @@ static unsigned* create_colors_levels(const unsigned color, double bright)
 	 * Unfortunately we cannot pass size of std::array as argument of function
 	 *  */
 
-    unsigned to_zeros[65] = {col, 0};
+    unsigned to_zeros[ARRAY_LEVELS_SIZE] = {col, 0};
 	while (flag)
 	{
 		unsigned* col_array = create_rgb_array(col);
@@ -233,6 +236,32 @@ void wake_up(const unsigned color, double bright, bool flag, unsigned* values, i
 	send(values, size);
 	index = index > 0 ? index - 1 : 60;
 	if (index == 60)
+		for (volatile int i = 0; i < 4000000; ++i);
+	for (volatile int i = 0; i < 1500000; ++i);
+}
+
+void sleeping(const unsigned color, double bright, bool flag, unsigned* values, int size)
+{
+	static uint32_t cnt = 10;
+	unsigned* vec_colors = create_vec_levels(color, bright);
+	static uint32_t index = ARRAY_LEVELS_SIZE - 1;
+	if (!flag)
+		index = ARRAY_LEVELS_SIZE - 1;
+	for (int step = 0; (cnt + (step  * 10)) < 300; step += 3)
+	{
+		values[cnt + (step  * 10)] = vec_colors[index];
+	}
+
+	++cnt;
+	send(values, size);
+	index = index > 0 ? index - 1 : ARRAY_LEVELS_SIZE - 1;
+	if (values[19] != 0)
+	{
+		for (int i = 0; i < size; ++i) values[i] = 0;
+		index = ARRAY_LEVELS_SIZE  - 1;
+		cnt = 10;
+	}
+	if (index == ARRAY_LEVELS_SIZE - 1)
 		for (volatile int i = 0; i < 4000000; ++i);
 	for (volatile int i = 0; i < 1500000; ++i);
 }

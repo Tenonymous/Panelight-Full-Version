@@ -1,0 +1,16 @@
+.copy{
+  background-color: transparent;
+  border: 1px solid $white;
+  border-radius: 2px;
+  color: $white;
+  display: inline-block;
+  font-size: $font-size-6;
+  font-weight: 700;
+  text-align: center;
+  transition: all .25s ease-in-out;
+
+  &:hover{
+      color: darken($color: $white, $amount: 15%);
+      border: 2px solid darken($color: $white, $amount: 15%);
+  }
+}

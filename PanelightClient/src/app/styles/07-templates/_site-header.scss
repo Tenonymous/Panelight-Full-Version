@@ -1,0 +1,58 @@
+.t-site-header{
+  background: $blue-gradient;
+  position: fixed;
+  width: 100%;
+
+  @include medium-up {
+    clip-path: polygon(30% 0, 70% 0, 50% 100%);
+  }
+    &__top{
+        padding: $grid-base * 2.5 0;
+    }
+
+    &__menu{
+        margin-top: $grid-base * 2;
+        @include large-up {
+            text-align: left;
+            margin-top: 0;
+        }
+    }
+    &__divider{
+        background-color: $white;
+        height: 1px;
+        margin: auto $grid-base*6;
+    }
+
+    &__hero{
+        padding: $grid-base * 4 0;
+        margin: 0 auto;
+        text-align: center;
+        @include large-up{
+            padding: $grid-base * 8 0;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+    }
+
+    &__intro-text{
+        color: $white;
+        font-size: $font-size-4;
+        margin: $grid-base*3 0;
+        @include large-up{
+            font-size: $font-size-3;
+            margin: $grid-base*5 0;
+            line-height: $line-height-lg;
+        }
+    }
+
+    &__btn-divider{
+        color: $white;
+        display: block;
+        font-size: $font-size-5;
+        font-weight: 700;
+        margin: $grid-base*2;
+        @include medium-up{
+            display: inline-block;
+        }
+    }
+}

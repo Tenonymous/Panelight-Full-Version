@@ -1,0 +1,50 @@
+Mode: tu do serwera wysylam tylko numer
+ mode: 1, name: 'awakening'
+ mode: 2, name: 'sleeping'
+ mode: 3, name: 'central gradient'
+ mode: 4, name: 'increasing gradient'
+ mode: 5, name: 'vertical stripes'
+ mode: 6, name: 'vertical stripes 2'
+
+
+Mode 1: Tutaj jest tylko ta jedna opcja czyli włączenie
+
+Mode 2: To samo tylko wyłącza
+
+Mode 3: Tutaj wysylam do serwera nazwę koloru
+   col_id: 1, name: 'blue'
+   col_id: 2, name: 'blue2'
+   col_id: 3, name: 'green'
+   col_id: 4, name: 'orange'
+   col_id: 5, name: 'purple'
+   col_id: 6, name: 'purple_red'
+   col_id: 7, name: 'red_yellow'
+   col_id: 8, name: 'yellow'
+   col_id: 9, name: 'yellow_green'
+
+Mode 4: Tutaj wysylam do serwera nazwę koloru
+  col_id: 1, name: 'blue_dark'
+  col_id: 2, name: 'blue_green'
+  col_id: 3, name: 'green_violet'
+  col_id: 4, name: 'green_orange'
+  col_id: 5, name: 'green_red'
+  col_id: 6, name: 'orange_red'
+  col_id: 7, name: 'pink_darkblue'
+  col_id: 8, name: 'pink_red'
+  col_id: 9, name: 'yellow_blue'
+
+Mode 5: Tutaj wysylam do serwera nazwę koloru
+  col_id: 1, name: 'amber'
+  col_id: 2, name: 'gold'
+  col_id: 3, name: 'green'
+  col_id: 4, name: 'magenta'
+  col_id: 5, name: 'ocean'
+  col_id: 6, name: 'plum'
+
+Mode 6: Tutaj wysylam do serwera nazwę koloru
+  col_id: 1, name: 'amber_green'
+  col_id: 2, name: 'gold_magenta'
+  col_id: 3, name: 'ocean_amber'
+  col_id: 4, name: 'ocean_plum'
+  col_id: 5, name: 'red_gold'
+  col_id: 6, name: 'red_green'

@@ -1,0 +1,29 @@
+.t-button-list{
+    background-color: $white;
+    padding-top: $grid-base *2;
+    position: relative;
+
+    @include medium-up{
+        height: 150px;
+    }
+
+    &__content{
+        padding-top: $grid-base * 2;
+        padding-bottom: $grid-base *2;
+        @include medium-up {
+            background-color: $white;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: $grid-base * 2;
+            z-index: 1000;
+        }
+    }
+
+    &__item{
+        margin-bottom: $grid-base * 2;
+        @include large-up{
+            margin-bottom: $grid-base * 2;
+        }
+    }
+}

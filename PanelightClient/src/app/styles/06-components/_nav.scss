@@ -1,0 +1,41 @@
+.c-nav{
+
+    &__item{
+            position: fixed;
+            display: inline-block;
+            margin-left: $grid-base/2;
+            margin-bottom: $grid-base;
+            color: #2bc430;
+            opacity: 0.7;
+            text-align: center;
+            font-size: $font-size-1;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease-in-out;
+            width: auto;
+            cursor: pointer;
+            &:hover{
+                opacity: 1;
+            }
+            @include medium-up {
+              margin-top: $grid-base;
+              margin-bottom: 0;
+            }
+    }
+
+    &__logo{
+      display: flex;
+      width: 70px;
+      height: 70px;
+      margin: -20px auto 0;
+      cursor: pointer;
+
+      @include medium-up {
+        margin: -10px auto 10px;
+      }
+
+      @include large-up {
+        margin: 0 auto;
+      }
+    }
+}

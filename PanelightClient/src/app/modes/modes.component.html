@@ -1,0 +1,15 @@
+<section class="t-about-tags" id = "about">
+  <div class="o-container">
+      <div class="o-col">
+          <h1 class="c-heading c-heading--level1 u-text-center u-pt-3 ">Select <span style="color: #2bc430">mode</span> by clicking the image </h1>
+          <h1 class="c-heading c-heading--level1 u-text-center u-pt-2 u-pb-3 "><i style="color: #2bc430" class="fas fa-angle-double-down"></i>
+          </h1>
+        </div>
+      <div class="o-row o-row--center-y">
+          <div *ngFor="let item of modes" class="o-col o-col--md50 o-col--lg33 o-col__img u-mb-3 modes">
+              <h2 class="c-heading c-heading--level2 c-heading--upper u-mb-1 u-text-center">{{item.name}}</h2>
+              <img (click)="sendMode(item.mode)" [routerLink]="[item.href]" routerLinkActive="router-link-active"  class="t-about-tags__img" [src]="item.src" alt="" srcset="">
+          </div>
+      </div>
+  </div>
+</section>

@@ -11,14 +11,17 @@
 
 HardwareSerial PanelightSerial(2);
 
-const unsigned short int numberOfWifies = 5;
 // change numberOfWifies if you delete or add some new WiFi network 
-char *ssids[] = {"Stejk", "Stejk", "Stejk", "Stejk", "Stejk"};
-char *passwords[] = {"dawid123", "dawid123", "dawid123", "dawid123", "dawid123"};
+const unsigned short int numberOfWifies = 5;
+char *ssids[] = {"ssid1", "ssid2", "ssid3", "ssid4", "ssid5"};
+char *passwords[] = {"password", "password", "password", "password", "password"};
    
 char* ssid = ssids[0];
 char* password = passwords[0];
 
+// address of server where server.go is running
+// port :8081 can be changed to other in server.go 
+// /json is a path for downloading json with mode and color
 const char* domainAddress = "http://192.168.43.144:8081/json";
 
 int displaying_mode = 1;

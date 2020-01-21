@@ -9,7 +9,7 @@
 #define BAUDRATE 9600
 
 
-HardwareSerial PanelightSerial(1);
+HardwareSerial PanelightSerial(2);
 
 const unsigned short int numberOfWifies = 5;
 // change numberOfWifies if you delete or add some new WiFi network 
@@ -19,10 +19,9 @@ char *passwords[] = {"dawid123", "dawid123", "dawid123", "dawid123", "dawid123"}
 char* ssid = ssids[0];
 char* password = passwords[0];
 
-const char* domainAddress = "http://192.168.0.213:8081/json";
+const char* domainAddress = "http://192.168.43.144:8081/json";
 
-unsigned short int displaying_mode = 1;
-
+int displaying_mode = 1;
 
   
 void setup() {
@@ -54,10 +53,18 @@ void setup() {
 }
 
 
-unsigned short int convertDisplayingMode(const unsigned short int currentMode, const char* currentColor)
+int convertDisplayingMode(int currentMode, const char* currentColor)
 {
-  unsigned short int temp = currentMode;
-  if(currentMode == 3)
+  int temp = 0;
+  if(currentMode == 1)
+  {
+    temp = 1;
+  }
+  else if(currentMode == 2)
+  {
+    temp = 2; 
+  }
+  else if(currentMode == 3)
   {
     if(strcmp(currentColor, "blue") == 0)
       temp = 3;
@@ -77,6 +84,7 @@ unsigned short int convertDisplayingMode(const unsigned short int currentMode, c
       temp = 10;
     else if(strcmp(currentColor, "yellow_green") == 0)
       temp = 11;
+      
   }
   else if(currentMode == 4)
   {
@@ -130,7 +138,7 @@ unsigned short int convertDisplayingMode(const unsigned short int currentMode, c
       temp = 31;
   }
 
-  return temp;  
+  return temp; 
 }
 
 
@@ -148,17 +156,15 @@ void loop() {
         StaticJsonDocument<500> jsonDoc;
         deserializeJson(jsonDoc, payload);
 
-        unsigned short int temp = convertDisplayingMode(jsonDoc["Id"], jsonDoc["Color"]);
+        int temp = convertDisplayingMode(jsonDoc["Id"], jsonDoc["Color"]);
         if(displaying_mode != temp)
         {
           displaying_mode = temp;
           changeNeeded = true;
         }
-        
         if(changeNeeded)
         {
-          Serial.println(displaying_mode);
-          PanelightSerial.write(displaying_mode);
+          PanelightSerial.write(temp);
           changeNeeded = false;
         }
         

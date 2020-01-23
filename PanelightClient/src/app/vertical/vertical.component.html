@@ -1,0 +1,12 @@
+<section class="t-about-tags" id = "about">
+    <i [routerLink]="['/modes']" routerLinkActive="router-link-active"  class="fas fa-arrow-circle-left c-nav__item"></i>
+    <div class="o-container">
+    <h1 class="c-heading c-heading--level1 u-text-center u-mb-4 u-mt-4 c-heading--upper u-text-center"><span style="color: #2bc430">vertical</span> stripes</h1>
+  <div class="o-row o-row--center-y">
+      <div *ngFor="let img of verticalStripes" class="o-col o-col--md50 o-col--lg33 o-col__img u-mb-2 modes t-about-tags__img--check">
+          <input type="radio" [id]="'cb' + img.col_id" name="cb" />
+          <label [for]="'cb' + img.col_id"><img (click)="sendColor(img.name)" class="t-about-tags__img" [src]="img.src"/></label>
+      </div>
+  </div>
+  </div>
+  </section>

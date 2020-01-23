@@ -1,0 +1,15 @@
+.c-input{
+  border: none;
+  border-radius: $border-radius;
+  display: block;
+  font-size: $font-size-3;
+  font-weight: 700;
+  line-height: $line-height-sm;
+  padding: 0.75rem 0;
+  text-align: center;
+  transition: all .25s ease-in-out;
+  margin: $grid-base*3 auto;
+  width: 75%;
+  offset: none;
+  color: $dark-blue;
+}

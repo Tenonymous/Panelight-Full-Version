@@ -1,0 +1,15 @@
+.t-site-footer{
+    background: $blue-gradient;
+    padding-bottom: $grid-base * 2;
+    padding-top: $grid-base * 2;
+
+    @include large-up{
+        padding-top: $grid-base *3;
+    }
+
+    &__content{
+        font-weight: bold;
+        color: $white;
+        font-size: $font-size-3;
+    }
+}

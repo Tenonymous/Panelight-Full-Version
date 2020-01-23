@@ -1,0 +1,10 @@
+.c-list{
+
+    &__item{
+        margin-bottom: $grid-base;
+    }
+
+    &--stylenone{
+        list-style-type: none;
+    }
+}

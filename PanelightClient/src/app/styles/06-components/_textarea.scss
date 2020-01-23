@@ -1,0 +1,24 @@
+.c-textarea{
+  border: 2px solid $green;
+  border-radius: $border-radius;
+  display: block;
+  font-size: $font-size-5;
+  font-weight: 700;
+  line-height: $line-height-sm;
+  padding: 0.3rem 0;
+  text-align: center;
+  transition: all .25s ease-in-out;
+  margin: $grid-base*2 auto $grid-base * 0.4;
+  width: 90%;
+  height: $grid-base * 15;
+  overflow: hidden;
+  offset: none;
+  color: $dark-blue;
+  resize: none;
+
+  @include medium-up{
+    font-size: $font-size-4;
+    height: $grid-base * 13;
+    width: 75%;
+  }
+}

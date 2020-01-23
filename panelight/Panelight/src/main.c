@@ -6,10 +6,8 @@
 #endif
 #endif
 
-/*
+
 #include <cr_section_macros.h>
-uncomment this
-*/
 #include "driver.h"
 
 #define LED_COUNT 300
@@ -50,11 +48,19 @@ enum MenuOptions
 	GRADIENT_GREEN_VIOLET = 32
 };
 
-unsigned LedRing[LED_COUNT] = {0};
+extern unsigned GREEN;
+extern unsigned MAGENTA;
+extern unsigned AMBER;
+extern unsigned OCEAN;
+extern unsigned GOLD;
+extern unsigned PLUM;
+extern unsigned RED;
+
+//unsigned LedRing[LED_COUNT] = {0};
 volatile int choice;
 int options[] =
 {
-		1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32
+		1,2,3,4,5,6,7,8,9,10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32
 };
 
 static bool findOption(int c)
@@ -62,7 +68,7 @@ static bool findOption(int c)
 	bool found = false;
 	for (int i = 0; i < 31; ++i)
 	{
-		if (options[i] == c) 
+		if (options[i] == c)
         {
             found = true;
             break;
@@ -73,172 +79,142 @@ static bool findOption(int c)
 
 void SysTick_Handler(void)
 {
-	choice = DEBUGIN();
-	static int finalChoice = -1;
+	unsigned LedRing[LED_COUNT] = {0};
+	choice = Board_UARTGetChar();
+	static int finalChoice = 0;
 	finalChoice = findOption(choice) ? choice : finalChoice;
+	//printf("choice: %d", choice);
+	//printf("final choice: %d", finalChoice);
 	static bool flag = true;
-
 	switch (finalChoice)
 	{
 	case UP_DOWN_GREEN:
 		flag = false;
 		up_down(GREEN, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case UP_DOWN_MAGENTA:
 		flag = false;
 		up_down(MAGENTA, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case UP_DOWN_AMBER:
 		flag = false;
 		up_down(AMBER, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case UP_DOWN_OCEAN:
 		flag = false;
 		up_down(OCEAN, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case UP_DOWN_GOLD:
 		flag = false;
 		up_down(GOLD, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case UP_DOWN_PLUM:
 		flag = false;
 		up_down(PLUM, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_GREEN_VIOLET:
 		flag = false;
 		gradient(GREEN_VIOLET, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_ORANGE_RED:
 		flag = false;
 		gradient(ORANGE_RED, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_GREEN_ORANGE:
 		flag = false;
 		gradient(GREEN_ORANGE, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_BLUE_GREEN:
 		flag = false;
 		gradient(BLUE_GREEN, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_BLUE_DARK:
 		flag = false;
 		gradient(BLUE_DARK, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_PINK_DARKBLUE:
 		flag = false;
 		gradient(PINK_DARKBLUE, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_PINK_RED:
 		flag = false;
 		gradient(PINK_RED, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_GREEN_RED:
 		flag = false;
 		gradient(GREEN_RED, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_YELLOW_BLUE:
 		flag = false;
 		gradient(YELLOW_BLUE, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_CENT_BLUE:
 		flag = false;
 		gradient_center(GRADIENT_CENTER_BLUE, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_CENT_BLUE2:
 		flag = false;
 		gradient_center(GRADIENT_CENTER_BLUE2, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_CENT_GREEN:
 		flag = false;
 		gradient_center(GRADIENT_CENTER_GREEN, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_CENT_ORANGE:
 		flag = false;
 		gradient_center(GRADIENT_CENTER_ORANGE, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_CENT_PURPLE:
 		flag = false;
 		gradient_center(GRADIENT_CENTER_PURPLE, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_CENT_PURPLE_RED:
 		flag = false;
 		gradient_center(GRADIENT_CENTER_PURPLE_RED, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_CENT_RED_YELLOW:
 		flag = false;
 		gradient_center(GRADIENT_CENTER_RED_YELLOW, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_CENT_YELLOW:
 		flag = false;
 		gradient_center(GRADIENT_CENTER_YELLOW, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case GRADIENT_CENT_YELLOW_GREEN:
 		flag = false;
 		gradient_center(GRADIENT_CENTER_YELLOW_GREEN, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case UP_DOWN_RED_GREEN:
 		flag = false;
 		up_down_two_col(RED, GREEN, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case UP_DOWN_RED_GOLD:
 		flag = false;
 		up_down_two_col(RED, GOLD, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case UP_DOWN_PLUM_OCEAN:
 		flag = false;
 		up_down_two_col(PLUM, OCEAN, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case UP_DOWN_AMBER_OCEAN:
 		flag = false;
 		up_down_two_col(AMBER, OCEAN, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case UP_DOWN_AMBER_GREEN:
 		flag = false;
 		up_down_two_col(AMBER, GREEN, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case UP_DOWN_MAGENTA_GOLD:
 		flag = false;
 		up_down_two_col(MAGENTA, GOLD, LedRing, LED_COUNT);
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case WAKE_UP:
 		wake_up(0x5af604, 0.95, flag, LedRing, LED_COUNT);
 		flag = true;
-		clean_up(LedRing, LED_COUNT);
 		break;
 	case SLEEP:
 		sleeping(0x5af604, 0.95, flag, LedRing, LED_COUNT);
 		flag = true;
-		clean_up(LedRing, LED_COUNT);
 		break;
 	}
 }
@@ -255,6 +231,7 @@ int main(void) {
     init_data();
 	SystemCoreClockUpdate();
 	SysTick_Config(SystemCoreClock / 6);
-	while(1) {}
+	while(1) {
+	}
 	return 0 ;
 }

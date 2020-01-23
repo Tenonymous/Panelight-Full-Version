@@ -1,10 +1,10 @@
 #include "color.h"
-
+#include <stdlib.h>
 typedef unsigned uint;
 
 uint* create_rgb_array(uint color)
 {
-    uint rgb_array[3];
+    uint* rgb_array = (uint*) malloc(3 * sizeof(uint));
     uint r = (color >> 16) & 0xFF;
 	uint g = (color >> 8) & 0xFF;
 	uint b = color & 0xFF;

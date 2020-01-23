@@ -1,9 +1,7 @@
 #pragma once
 
-/*#include <chip.h>
-uncomment this
-*/
-#include <stdbool.h>
+#include <chip.h>
+
 #include "colors_def.h"
 
 /*
@@ -20,10 +18,10 @@ macros definitions
 /*
 enums definitions 
 */
-enum MODE
+typedef enum
 {
 	UP, DOWN
-} mode;
+} MODE;
 
 /*
 private variables sections
@@ -33,8 +31,9 @@ static uint16_t LED_data;
 /*
 private functions sections
 */
-static void send(unsigned* values, int size);
-static unsigned* create_colors_levels(const unsigned color, double bright);
+void send(unsigned* values, int size);
+extern MODE mode;
+unsigned* create_colors_levels(const unsigned color, double bright);
 
 /*
 utility functions

@@ -1,8 +1,8 @@
 #include "driver.h"
 #include <stdbool.h>
-
+#include <stdlib.h>
 #define ARRAY_LEVELS_SIZE 65
-
+MODE mode = UP;
 void init_data()
 {
     mode = UP;
@@ -19,22 +19,10 @@ void deinit()
 {
     Chip_SSP_Disable(LPC_SSP0);
 }
-static void send(unsigned* values, int size)
-{
-    for (int val = 0; val < size; ++val)
-	{
-		for(int i = 23; i >= 0; --i)
-		{
-			LED_data = GET_BIT(values[val], i) ? CODE_1 : CODE_0;
-			while(!Chip_SSP_GetStatus(LPC_SSP0, SSP_STAT_TNF)); //TX FIFO not FULL
-			Chip_SSP_SendFrame(LPC_SSP0, LED_data);
-		}
-	}
-}
 
 void clean_up(unsigned* values, int size)
 {
-    for (int i = 0; i < size; ++i) values[i] = 0;
+  //  for (int i = 0; i < size; ++i) values[i] = 0;
 }
 
 bool all_of(unsigned* array, int size, int val)
@@ -47,7 +35,20 @@ bool all_of(unsigned* array, int size, int val)
     return true;
 }
 
-static unsigned* create_colors_levels(const unsigned color, double bright)
+void send(unsigned* values, int size)
+{
+    for (int val = 0; val < size; ++val)
+	{
+		for(int i = 23; i >= 0; --i)
+		{
+			LED_data = GET_BIT(values[val], i) ? CODE_1 : CODE_0;
+			while(!Chip_SSP_GetStatus(LPC_SSP0, SSP_STAT_TNF)); //TX FIFO not FULL
+			Chip_SSP_SendFrame(LPC_SSP0, LED_data);
+		}
+	}
+}
+
+unsigned* create_colors_levels(const unsigned color, double bright)
 {
     unsigned col = color;
 	bool flag = true;
@@ -59,7 +60,9 @@ static unsigned* create_colors_levels(const unsigned color, double bright)
 	 * Unfortunately we cannot pass size of std::array as argument of function
 	 *  */
 
-    unsigned to_zeros[ARRAY_LEVELS_SIZE] = {col, 0};
+	unsigned* to_zeros = (unsigned*) malloc(ARRAY_LEVELS_SIZE * sizeof(unsigned));
+	to_zeros[0] = col;
+	for (int i = 1; i < ARRAY_LEVELS_SIZE; ++i) to_zeros[i] = 0;
 	while (flag)
 	{
 		unsigned* col_array = create_rgb_array(col);
@@ -78,6 +81,7 @@ static unsigned* create_colors_levels(const unsigned color, double bright)
 
 		to_zeros[cnt] = col;
 		cnt++;
+		free(col_array);
 	}
 
 	return to_zeros;
@@ -221,7 +225,7 @@ void gradient(const unsigned* colors, unsigned* values, int size)
 
 void wake_up(const unsigned color, double bright, bool flag, unsigned* values, int size)
 {
-    unsigned* vec_colors = create_vec_levels(color, bright);
+    unsigned* vec_colors = create_colors_levels(color, bright);
 	static uint32_t index = 60;
 	if (!flag)
 		index = 60;
@@ -238,32 +242,31 @@ void wake_up(const unsigned color, double bright, bool flag, unsigned* values, i
 	if (index == 60)
 		for (volatile int i = 0; i < 4000000; ++i);
 	for (volatile int i = 0; i < 1500000; ++i);
+	free(vec_colors);
 }
 
 void sleeping(const unsigned color, double bright, bool flag, unsigned* values, int size)
 {
 	static uint32_t cnt = 10;
-	unsigned* vec_colors = create_vec_levels(color, bright);
-	static uint32_t index = ARRAY_LEVELS_SIZE - 1;
+	unsigned* vec_colors = create_colors_levels(color, bright);
+	static uint32_t index = 0;
 	if (!flag)
-		index = ARRAY_LEVELS_SIZE - 1;
-	for (int step = 0; (cnt + (step  * 10)) < 300; step += 3)
-	{
-		values[cnt + (step  * 10)] = vec_colors[index];
-	}
+		index = 0;
+	for (uint32_t i = 10; i < 281; i += 30)
+		{
+	        for (int j = i; j < i + 10; ++j)
+	        {
+	            values[j] = vec_colors[index];
+	        }
+		}
 
 	++cnt;
 	send(values, size);
-	index = index > 0 ? index - 1 : ARRAY_LEVELS_SIZE - 1;
-	if (values[19] != 0)
-	{
-		for (int i = 0; i < size; ++i) values[i] = 0;
-		index = ARRAY_LEVELS_SIZE  - 1;
-		cnt = 10;
-	}
-	if (index == ARRAY_LEVELS_SIZE - 1)
+	index = index < 60 ? index + 1 : 0;
+	if (index == 0)
 		for (volatile int i = 0; i < 4000000; ++i);
 	for (volatile int i = 0; i < 1500000; ++i);
+	free(vec_colors);
 }
 
 

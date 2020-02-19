@@ -67,30 +67,32 @@ unsigned* create_colors_levels(const unsigned color, double bright)
 	 *  */
 
     unsigned* to_zeros = (unsigned*)malloc(ARRAY_LEVELS_SIZE * sizeof(unsigned));
-    to_zeros[0] = col;
-    for (int i = 1; i < ARRAY_LEVELS_SIZE; ++i) {
-        to_zeros[i] = 0;
+    if (to_zeros != NULL) {
+        to_zeros[0] = col;
+        for (int i = 1; i < ARRAY_LEVELS_SIZE; ++i) {
+            to_zeros[i] = 0;
+        }
+        while (flag) {
+            unsigned* col_array = create_rgb_array(col);
+            if (col_array != NULL) {
+                for (int val = 0; val < 3; ++val) {
+                    col_array[val] *= bright;
+                }
+
+                if (all_of(col_array, 3, 0.0)) {
+                    col = 0;
+                    flag = false;
+                }
+                else {
+                    col = hexa_merging(col_array[0], col_array[1], col_array[2]);
+                }
+
+                to_zeros[cnt] = col;
+                cnt++;
+                free(col_array);
+            }
+        }
     }
-    while (flag) {
-        unsigned* col_array = create_rgb_array(col);
-
-        for (int val = 0; val < 3; ++val) {
-            col_array[val] *= bright;
-        }
-
-        if (all_of(col_array, 3, 0.0)) {
-            col = 0;
-            flag = false;
-        }
-        else {
-            col = hexa_merging(col_array[0], col_array[1], col_array[2]);
-        }
-
-        to_zeros[cnt] = col;
-        cnt++;
-        free(col_array);
-    }
-
     return to_zeros;
 }
 
@@ -264,55 +266,59 @@ void gradient(const unsigned* colors, unsigned* values, int size)
 void wake_up(const unsigned color, double bright, bool flag, unsigned* values, int size)
 {
     unsigned* vec_colors = create_colors_levels(color, bright);
-    static uint32_t index = 60;
-    if (!flag) {
-        index = 60;
-    }
-    for (uint32_t i = 10; i < 281; i += 30) {
-        for (int j = i; j < i + 10; ++j) {
-            values[j] = vec_colors[index];
+    if (vec_colors != NULL) {
+        static uint32_t index = 60;
+        if (!flag) {
+            index = 60;
         }
-    }
+        for (uint32_t i = 10; i < 281; i += 30) {
+            for (int j = i; j < i + 10; ++j) {
+                values[j] = vec_colors[index];
+            }
+        }
 
-    send(values, size);
-    index = index > 0 ? index - 1 : 60;
-    if (index == 60) {
-        for (volatile int i = 0; i < 4000000; ++i) {
+        send(values, size);
+        index = index > 0 ? index - 1 : 60;
+        if (index == 60) {
+            for (volatile int i = 0; i < 4000000; ++i) {
+                ;
+            }
+        }
+        for (volatile int i = 0; i < 1500000; ++i) {
             ;
         }
+        free(vec_colors);
     }
-    for (volatile int i = 0; i < 1500000; ++i) {
-        ;
-    }
-    free(vec_colors);
 }
 
 void sleeping(const unsigned color, double bright, bool flag, unsigned* values, int size)
 {
     static uint32_t cnt = 10;
     unsigned* vec_colors = create_colors_levels(color, bright);
-    static uint32_t index = 0;
-    if (!flag) {
-        index = 0;
-    }
-    for (uint32_t i = 10; i < 281; i += 30) {
-        for (int j = i; j < i + 10; ++j) {
-            values[j] = vec_colors[index];
+    if (vec_colors != NULL) {
+        static uint32_t index = 0;
+        if (!flag) {
+            index = 0;
         }
-    }
+        for (uint32_t i = 10; i < 281; i += 30) {
+            for (int j = i; j < i + 10; ++j) {
+                values[j] = vec_colors[index];
+            }
+        }
 
-    ++cnt;
-    send(values, size);
+        ++cnt;
+        send(values, size);
 
-    index = index < 60 ? index + 1 : 0;
-    if (index == 0) {
-        for (volatile int i = 0; i < 4000000; ++i) {
+        index = index < 60 ? index + 1 : 0;
+        if (index == 0) {
+            for (volatile int i = 0; i < 4000000; ++i) {
+                ;
+            }
+        }
+
+        for (volatile int i = 0; i < 1500000; ++i) {
             ;
         }
+        free(vec_colors);
     }
-
-    for (volatile int i = 0; i < 1500000; ++i) {
-        ;
-    }
-    free(vec_colors);
 }

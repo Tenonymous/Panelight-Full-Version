@@ -1,12 +1,15 @@
 #include "driver.h"
 #include <stdbool.h>
 #include <stdlib.h>
+
 #define ARRAY_LEVELS_SIZE 65
+
 MODE mode = UP;
+
 void init_data()
 {
     mode = UP;
-    LED_data = 0;
+	LED_data = 0;
     Chip_IOCON_PinMuxSet(LPC_IOCON, 0, 9, IOCON_FUNC1); /* PIO0_9 connected to MOSI0 */
 	Chip_SSP_Init(LPC_SSP0);
 	Chip_SSP_SetMaster(LPC_SSP0, 1);
@@ -22,17 +25,18 @@ void deinit()
 
 void clean_up(unsigned* values, int size)
 {
-  //  for (int i = 0; i < size; ++i) values[i] = 0;
+  	for (int i = 0; i < size; ++i) values[i] = 0;
 }
 
 bool all_of(unsigned* array, int size, int val)
 {
+	bool all_is = true;
     for (int i = 0; i < size; ++i)
     {
         if (array[i] != val)
-            return false;
+            all_is = false;
     }
-    return true;
+    return all_is;
 }
 
 void send(unsigned* values, int size)
@@ -57,7 +61,6 @@ unsigned* create_colors_levels(const unsigned color, double bright)
 	/*Can't find optimal SIZE for Array.
 	 * Probably it is depending on bright variable.
 	 * For bright == 95, 65 is best size for our effect.
-	 * Unfortunately we cannot pass size of std::array as argument of function
 	 *  */
 
 	unsigned* to_zeros = (unsigned*) malloc(ARRAY_LEVELS_SIZE * sizeof(unsigned));
@@ -253,18 +256,20 @@ void sleeping(const unsigned color, double bright, bool flag, unsigned* values, 
 	if (!flag)
 		index = 0;
 	for (uint32_t i = 10; i < 281; i += 30)
-		{
-	        for (int j = i; j < i + 10; ++j)
-	        {
-	            values[j] = vec_colors[index];
-	        }
-		}
+	{
+		for (int j = i; j < i + 10; ++j)
+	    {
+			values[j] = vec_colors[index];
+	    }
+	}
 
 	++cnt;
 	send(values, size);
+	
 	index = index < 60 ? index + 1 : 0;
 	if (index == 0)
 		for (volatile int i = 0; i < 4000000; ++i);
+	
 	for (volatile int i = 0; i < 1500000; ++i);
 	free(vec_colors);
 }

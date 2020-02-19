@@ -38,8 +38,8 @@ unsigned* create_colors_levels(const unsigned color, double bright);
 /*
 utility functions
 */
-void init_data();
-void deinit();
+void init_data(void);
+void deinit(void);
 void clean_up(unsigned* values, int size);
 
 /*

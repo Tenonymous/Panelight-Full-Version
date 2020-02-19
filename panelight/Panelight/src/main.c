@@ -53,23 +53,9 @@ int options[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
     12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
     23, 24, 25, 26, 27, 28, 29, 30, 31, 32 };
 
-static bool
-findOption(int c)
-{
-    bool found = false;
-    for (int i = 0; i < 31; ++i) {
-        if (options[i] == c) {
-            found = true;
-            break;
-        }
-    }
-    return found;
-}
+static bool findOption(int c);
 
-void SysTick_Handler(void)
-{
-    choice = Board_UARTGetChar();
-}
+void SysTick_Handler(void);
 int main(void)
 {
 #if defined(__USE_LPCOPEN)
@@ -221,4 +207,21 @@ int main(void)
         }
     }
     return 0;
+}
+
+static bool findOption(int c)
+{
+    bool found = false;
+    for (int i = 0; i < 31; ++i) {
+        if (options[i] == c) {
+            found = true;
+            break;
+        }
+    }
+    return found;
+}
+
+void SysTick_Handler(void)
+{
+    choice = Board_UARTGetChar();
 }

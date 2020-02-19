@@ -47,8 +47,7 @@ void send(unsigned* values, int size)
         for (int i = 23; i >= 0; --i) {
             LED_data = GET_BIT(values[val], i) ? CODE_1 : CODE_0;
             while (!Chip_SSP_GetStatus(LPC_SSP0, SSP_STAT_TNF)) {
-                ;
-                * / TX FIFO not FULL * /
+                ; /* TX FIFO not FULL */
             }
             Chip_SSP_SendFrame(LPC_SSP0, LED_data);
         }

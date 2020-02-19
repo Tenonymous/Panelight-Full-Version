@@ -5,12 +5,14 @@ typedef unsigned uint;
 uint* create_rgb_array(uint color)
 {
     uint* rgb_array = (uint*)malloc(3 * sizeof(uint));
-    uint r = (color >> 16) & 0xFF;
-    uint g = (color >> 8) & 0xFF;
-    uint b = color & 0xFF;
-    rgb_array[0] = r;
-    rgb_array[1] = g;
-    rgb_array[2] = b;
+    if (rgb_array != NULL) {
+        uint r = (color >> 16) & 0xFF;
+        uint g = (color >> 8) & 0xFF;
+        uint b = color & 0xFF;
+        rgb_array[0] = r;
+        rgb_array[1] = g;
+        rgb_array[2] = b;
+    }
     return rgb_array;
 }
 

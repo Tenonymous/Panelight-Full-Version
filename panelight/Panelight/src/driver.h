@@ -18,9 +18,9 @@ macros definitions
 /*
 enums definitions 
 */
-typedef enum
-{
-	UP, DOWN
+typedef enum {
+    UP,
+    DOWN
 } MODE;
 
 /*
@@ -51,5 +51,3 @@ void gradient_center(const unsigned* colors, unsigned* values, int size);
 void gradient(const unsigned* colors, unsigned* values, int size);
 void wake_up(const unsigned color, double bright, bool flag, unsigned* values, int size);
 void sleeping(const unsigned color, double bright, bool flag, unsigned* values, int size);
-
-
